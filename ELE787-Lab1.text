@@ -1,0 +1,395 @@
+'ELE787-Lab1
+'Par Michael Ly et Jacques Aharonian
+'À remettre le 8 fevrier 2018
+
+Public Class Form1
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        'Definir les variables 
+        Dim j As New Complex(0, 1)
+        Dim R0 As New Double
+        Dim F0 As New Double
+        Dim C0 As New Double
+        Dim G0 As New Double
+        Dim L0 As New Double
+        Dim pi = 3.14159265359898
+        Dim Z0 As New Complex
+        Dim Y0 As New Complex
+
+        'Verifie si les textboxes R0, L0, G0, C0, F0 et L1 ont une valeur numerique...si oui, quitte la programme
+        If Not IsNumeric(ResistanceR0txt.Text) Then
+            MsgBox("R0 doit etre une valeur numerique", vbInformation)
+            Validate(ResistanceR0txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        If Not IsNumeric(InductanceL0txt.Text) Then
+            MsgBox("L0 doit etre une valeur numerique", vbInformation)
+            Validate(InductanceL0txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        If Not IsNumeric(AdmittanceG0txt.Text) Then
+            MsgBox("G0 doit etre une valeur numerique", vbInformation)
+            Validate(AdmittanceG0txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        If Not IsNumeric(CapaciteC0txt.Text) Then
+            MsgBox("C0 doit etre une valeur numerique", vbInformation)
+            Validate(CapaciteC0txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        If Not IsNumeric(FrequenceF0txt.Text) Then
+            MsgBox("F0 doit etre une valeur numerique", vbInformation)
+            Validate(FrequenceF0txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        If Not IsNumeric(LigneL1txt.Text) Then
+            MsgBox("L1 doit etre une valeur numerique", vbInformation)
+            Validate(LigneL1txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        'Convertir la valeur du frequence F0...elle est dependente de la selection de ComboBox
+        If FrequenceComboBox.Text = "Hz" Then
+            F0 = FrequenceF0txt.Text
+        ElseIf FrequenceComboBox.Text = "KHz" Then
+            F0 = FrequenceF0txt.Text * (10 ^ 3)
+        ElseIf FrequenceComboBox.Text = "MHz" Then
+            F0 = FrequenceF0txt.Text * (10 ^ 6)
+        End If
+
+        'Convertir la valeur d'inductance L0...elle est dependente de la selection de ComboBox
+        If InductanceComboBox.Text = "uH/Km" Then
+            L0 = InductanceL0txt.Text * (10 ^ -6)
+        ElseIf InductanceComboBox.Text = "mH/Km" Then
+            L0 = InductanceL0txt.Text * (10 ^ -3)
+        End If
+
+        'Definir les valeurs de C0, G0 et R0
+        C0 = CapaciteC0txt.Text * (10 ^ -9)
+        G0 = AdmittanceG0txt.Text * (10 ^ -6)
+        R0 = ResistanceR0txt.Text
+
+        'Calculer l'impedance Z0
+        Z0 = ((R0 + j * 2 * pi * F0 * L0) / (G0 + j * 2 * pi * F0 * C0)) ^ 0.5
+        ImpedanceZ0txt.Text = Math.Round(Mag(Z0), 2)
+
+        'Calculer la valeur de gamma Y0
+        Y0 = ((R0 + j * 2 * pi * F0 * L0) * (G0 + j * 2 * pi * F0 * C0)) ^ 0.5
+        GammaY0txt.Text = Y0.Re.ToString("G3") + "+ j" + Y0.Im.ToString("G3")
+
+        'Affichage la valeur d'alpha A0
+        AlphaA0txt.Text = Y0.Re.ToString("G3")
+
+
+        'Affichage la valeur de beta B0
+        BetaB0txt.Text = Y0.Im.ToString("G3")
+
+    End Sub
+
+    Private Sub TrackBar1_Scroll(sender As Object, e As EventArgs) Handles TrackBar1.Scroll
+        'Definir les variables 
+        Dim j As New Complex(0, 1)
+        Dim R0 As New Double
+        Dim F0 As New Double
+        Dim C0 As New Double
+        Dim G0 As New Double
+        Dim L0 As New Double
+        Dim pi = 3.1415926535897931
+        Dim Z0 As New Complex
+        Dim Y0 As New Complex
+
+        Dim Val1 As Double
+        Dim Val3 As New Complex
+        Dim Val5 As New Complex
+        Dim val9 As New Complex
+        Dim Temps As Double
+        Dim Distance As Double
+        Dim B0 As Double
+        Dim A0 As Double
+
+        Dim Val11 As Double
+        Dim Val22 As Complex
+        Dim Val33 As New Complex
+        Dim Val55 As New Complex
+
+        Dim Vxt As New Complex
+        Dim Ixt As New Complex
+        Dim Zxt As New Complex
+
+        Dim Ixt1 As New Complex
+
+        Dim VT As New Complex
+        Dim IT As New Complex
+        Dim Zt As New Complex
+
+        'Verifie si les textboxes R0, L0, G0, C0, F0 et L1 ont une valeur numerique...si oui, quitte la programme
+        If Not IsNumeric(ResistanceR0txt.Text) Then
+            MsgBox("R0 doit etre une valeur numerique", vbInformation)
+            Validate(ResistanceR0txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        If Not IsNumeric(InductanceL0txt.Text) Then
+            MsgBox("L0 doit etre une valeur numerique", vbInformation)
+            Validate(InductanceL0txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        If Not IsNumeric(AdmittanceG0txt.Text) Then
+            MsgBox("G0 doit etre une valeur numerique", vbInformation)
+            Validate(AdmittanceG0txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        If Not IsNumeric(CapaciteC0txt.Text) Then
+            MsgBox("C0 doit etre une valeur numerique", vbInformation)
+            Validate(CapaciteC0txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        If Not IsNumeric(FrequenceF0txt.Text) Then
+            MsgBox("F0 doit etre une valeur numerique", vbInformation)
+            Validate(FrequenceF0txt.Text = "")
+            Environment.Exit(0)
+        End If
+
+        If Not IsNumeric(LigneL1txt.Text) Then
+            MsgBox("L1 doit etre une valeur numerique", vbInformation)
+            Validate(LigneL1txt.Text = "")
+            Environment.Exit(0)
+        End If
+        If Not IsNumeric(VSTxtBox.Text) Then
+            MsgBox("Vs doit etre une valeur numerique", vbInformation)
+            Validate(VSTxtBox.Text = "")
+            Environment.Exit(0)
+        End If
+
+        'Convertir la valeur du frequence F0...elle est dependente de la selection de ComboBox
+        If FrequenceComboBox.Text = "Hz" Then
+            F0 = FrequenceF0txt.Text
+        ElseIf FrequenceComboBox.Text = "KHz" Then
+            F0 = FrequenceF0txt.Text * (10 ^ 3)
+        ElseIf FrequenceComboBox.Text = "MHz" Then
+            F0 = FrequenceF0txt.Text * (10 ^ 6)
+        End If
+
+        'Convertir la valeur d'inductance L0...elle est dependente de la selection de ComboBox
+        If InductanceComboBox.Text = "uH/Km" Then
+            L0 = InductanceL0txt.Text * (10 ^ -6)
+        ElseIf InductanceComboBox.Text = "mH/Km" Then
+            L0 = InductanceL0txt.Text * (10 ^ -3)
+        End If
+
+        'Definir les valeurs de C0, G0 et R0
+        C0 = CapaciteC0txt.Text * (10 ^ -9)
+        G0 = AdmittanceG0txt.Text * (10 ^ -6)
+        R0 = ResistanceR0txt.Text
+
+        'Calculer l'impedance Z0
+        Z0 = ((R0 + j * 2 * pi * F0 * L0) / (G0 + j * 2 * pi * F0 * C0)) ^ 0.5
+
+
+        'Calculer la valeur de gamma Y0
+        Y0 = ((R0 + j * 2 * pi * F0 * L0) * (G0 + j * 2 * pi * F0 * C0)) ^ 0.5
+
+        'Definir la valeur de la distance X 
+        DistanceXTxtBox.Text = TrackBar1.Value
+
+        'Calculer le fonction de VXT et VT
+
+        A0 = Y0.Re
+        B0 = Y0.Im
+        Temps = TempsSTxtBox.Text
+        Distance = DistanceXTxtBox.Text
+
+        Val1 = (2 * pi * F0 * Temps - B0 * Distance)
+        Val3 = (j * Val1)
+        Val5 = Exp(Val3)
+
+        val9 = VSTxtBox.Text * Math.Exp(-A0 * Distance) * Val5
+
+        'affiche VXT
+        If val9.Im.ToString("G4") > 0 Then
+            vxtTxtBox.Text = val9.Re.ToString("G4") + " + " + val9.Im.ToString("G4") + "j"
+        End If
+        If val9.Im.ToString("G4") < 0 Then
+            vxtTxtBox.Text = val9.Re.ToString("G4") + " " + val9.Im.ToString("G4") + "j"
+        End If
+
+        'affiche VX
+        If val9.Im.ToString("G4") > 0 Then
+            vxTxtBox.Text = val9.Re.ToString("G4") + " + " + val9.Im.ToString("G4") + "j"
+        End If
+        If val9.Im.ToString("G4") < 0 Then
+            vxTxtBox.Text = val9.Re.ToString("G4") + " " + val9.Im.ToString("G4") + "j"
+        End If
+
+        'Calculer le fonction de VT
+
+        Distance = 0
+        Val11 = (2 * pi * F0 * Temps - B0 * Distance)
+        Val33 = (j * Val11)
+        Val55 = Exp(Val33)
+
+        Val22 = VSTxtBox.Text * Math.Exp(-A0 * Distance) * Val55
+
+        'affiche VT
+        vtTxtBox.Text = Val22.Re.ToString("G4") + " + " + Val22.Im.ToString("G4") + "j"
+
+
+        'affiche iXT
+        Ixt1 = val9 / Mag(Z0)
+
+        If Ixt1.Im.ToString("G4") > 0 Then
+            ixtTxtBox.Text = (Ixt1.Re).ToString("G4") + " + " + (Ixt1.Im).ToString("G4") + "j"
+        End If
+        If Ixt1.Im.ToString("G4") < 0 Then
+            ixtTxtBox.Text = (Ixt1.Re).ToString("G4") + " " + (Ixt1.Im).ToString("G4") + "j"
+        End If
+
+        'affiche iX
+        If Ixt1.Im.ToString("G4") > 0 Then
+            ixTxtBox.Text = (Ixt1.Re).ToString("G4") + " + " + (Ixt1.Im).ToString("G4") + "j"
+        End If
+        If Ixt1.Im.ToString("G4") < 0 Then
+            ixTxtBox.Text = (Ixt1.Re).ToString("G4") + " " + (Ixt1.Im).ToString("G4") + "j"
+        End If
+
+        'affiche it
+        Dim iT1 = Val22 / Mag(Z0)
+
+
+        itTxtBox.Text = iT1.Re.ToString("G4") + " + " + iT1.Im.ToString("G4") + "j"
+
+        'Calculer Zxt
+
+        Vxt = VSTxtBox.Text * Math.Exp(-A0 * Distance) * Val5
+        Ixt = VSTxtBox.Text * Math.Exp(-A0 * Distance) * Val5 / Mag(Z0)
+        Zxt = Vxt / Ixt
+
+        'affiche Zxt
+        If Zxt.Im.ToString("G4") > 0 Then
+            ZxtTextBox.Text = Zxt.Re.ToString("G4") + " + " + Zxt.Im.ToString("G4") + "j"
+        End If
+        If Zxt.Im.ToString("G4") < 0 Then
+            ZxtTextBox.Text = Zxt.Re.ToString("G4") + " " + Zxt.Im.ToString("G4") + "j"
+        End If
+
+        'affiche Zx
+        If Zxt.Im.ToString("G4") > 0 Then
+            ZxTxtBox.Text = Zxt.Re.ToString("G4") + " + " + Zxt.Im.ToString("G4") + "j"
+        End If
+        If Zxt.Im.ToString("G4") < 0 Then
+            ZxTxtBox.Text = Zxt.Re.ToString("G4") + " " + Zxt.Im.ToString("G4") + "j"
+        End If
+
+        'affiche Zt
+
+        VT = VSTxtBox.Text * Math.Exp(-A0 * Distance) * Val55
+        IT = VSTxtBox.Text * Math.Exp(-A0 * Distance) * Val55 / Mag(Z0)
+        Zt = VT / IT
+
+        ZtTxtBox.Text = Zt.Re.ToString("G4") + " + " + Zt.Im.ToString("G4") + "j"
+
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        'Definir les variables
+        Dim j As New Complex(0, 1)
+        Dim F1 As Double
+        Dim L1 As Double
+        Dim R1 As New Double
+        Dim C1 As New Double
+        Dim G1 As New Double
+        Dim pi = 3.1415926535897931
+        Dim Z1 As New Complex
+        Dim Y1 As New Complex
+
+        Dim NextPerte As Double
+        Dim F2 As Double
+
+        Dim L2 As Double
+        Dim R2 As New Double
+        Dim C2 As New Double
+        Dim G2 As New Double
+        Dim Z2 As New Complex
+        Dim Y2 As New Complex
+
+        'Convertir la valeur du frequence F1...elle est dependente de la selection de ComboBox
+        If FrequencefComboBox2.Text = "Hz" Then
+            F1 = FrequencefTxtBox2.Text
+        ElseIf FrequencefComboBox2.Text = "KHz" Then
+            F1 = FrequencefTxtBox2.Text * (10 ^ 3)
+        ElseIf FrequencefComboBox2.Text = "MHz" Then
+            F1 = FrequencefTxtBox2.Text * (10 ^ 6)
+        End If
+
+        'Convertir la valeur du frequence F2...elle est dependente de la selection de ComboBox
+        If FrequencefComboBox3.Text = "Hz" Then
+            F2 = FrequencefTxtBox3.Text
+        ElseIf FrequencefComboBox3.Text = "KHz" Then
+            F2 = FrequencefTxtBox3.Text * (10 ^ 3)
+        ElseIf FrequencefComboBox3.Text = "MHz" Then
+            F2 = FrequencefTxtBox3.Text * (10 ^ 6)
+        End If
+
+        'Convertir la valeur d'inductance L1...elle est dependente de la selection de ComboBox
+        If InductanceL0ComboBox2.Text = "uH/Km" Then
+            L1 = InductanceL0TxtBox2.Text * (10 ^ -6)
+        ElseIf InductanceL0ComboBox2.Text = "mH/Km" Then
+            L1 = InductanceL0TxtBox2.Text * (10 ^ -3)
+        End If
+
+        'Convertir la valeur d'inductance L2...elle est dependente de la selection de ComboBox
+        If InductanceL0ComboBox3.Text = "uH/Km" Then
+            L2 = InductanceL0TxtBox3.Text * (10 ^ -6)
+        ElseIf InductanceL0ComboBox3.Text = "mH/Km" Then
+            L2 = InductanceL0TxtBox3.Text * (10 ^ -3)
+        End If
+
+
+        'Definir les valeurs de C1, G1 et R1
+        C1 = CapaciteC0TxtBox2.Text * (10 ^ -9)
+        G1 = AdmittanceG0TxtBox2.Text * (10 ^ -6)
+        R1 = ResistanceR0TxtBox2.Text
+
+
+        'Definir les valeurs de C2, G2 et R2
+        C2 = CapaciteC0TxtBox3.Text * (10 ^ -9)
+        G2 = AdmittanceG0TxtBox3.Text * (10 ^ -6)
+        R2 = ResistanceR0TxtBox3.Text
+
+        'Calculer l'impedance Z1
+        Z1 = ((R1 + j * 2 * pi * F1 * L1) / (G1 + j * 2 * pi * F1 * C1)) ^ 0.5
+
+        'Calculer la valeur de gamma Y1
+        Y1 = ((R1 + j * 2 * pi * F1 * L1) * (G1 + j * 2 * pi * F1 * C1)) ^ 0.5
+
+        'Calculer Gamme Y2
+        Y2 = ((R2 + j * 2 * pi * F2 * L2) * (G2 + j * 2 * pi * F2 * C2)) ^ 0.5
+
+        'Affiche NEXT en dB
+        NEXTResultatTxtBox.Text = NEXTRefTxtBox1.Text - 15 * Math.Log10(FreqFEXTRefTxtBox1.Text * 10 ^ 3) + 15 * Math.Log10(F1)
+
+        'Affiche FEXT
+        FEXTResultatTxtBox.Text = FEXTRefTxtBox1.Text - 20 * Math.Log10(FreqFEXTRefTxtBox1.Text * 10 ^ 3) - 10 * Math.Log10(LongFEXTRefTxtBox1.Text) + 20 * Math.Log10(F1) + 10 * Math.Log10(LongueurLTxtBox2.Text)
+
+        'Calculer ACR
+        NextPerte = NEXTRefTxtBox2.Text - 15 * Math.Log10(FreqFEXTrefTxtBox2.Text * 10 ^ 3) + 15 * Math.Log10(F2)
+
+        'Affiche ACR
+        ACRResultatTxtBox.Text = (-8.686 * Y1.Re * LongueurLTxtBox2.Text - NextPerte).ToString("G4")
+
+        'Affiche ELFEXT
+        ELFEXTResultatTxtBox.Text = (-8.686 * Y2.Re * LongueurLTxtBox2.Text - FEXTResultatTxtBox.Text).ToString("G3")
+
+        'Affiche LB
+        LBResultatTxtBox.Text = (((45 * ((PuissanceTxTxtBox.Text - 30) - MargeauRXTxtBox.Text - (NEXTResultatTxtBox.Text))) / 84) ^ 2) / 1000
+    End Sub
+
+
+End Class
