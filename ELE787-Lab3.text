@@ -1,0 +1,130 @@
+'ELE787-Lab3
+'Faites par Michael Ly
+'À remettre le 22 mars 2018
+
+Public Class ELE787_Lab3
+    'le function pour calculer la valeur minimum
+    Function min(ParamArray table() As Object) As Object
+        Dim minValue, Value As Object
+        minValue = table(0)
+        For Each Value In table
+            If Value < minValue Then
+                minValue = Value
+            End If
+        Next
+        min = minValue
+    End Function
+
+    Private Sub GenerateButton_Click(sender As Object, e As EventArgs) Handles GenerateButton.Click
+
+        'creer les variables
+        Dim min1, min2, min3, min4, min5, min6, min7 As Integer
+        Dim cap0, cap1, cap2, cap3, cap4, cap5, cap6, cap7, cap8, cap9, cap10 As Integer
+
+        'affiche le capacite residuelle
+        CapaciteResiduelleBX0Txtbox.Text = Convert.ToDecimal(-DS1X0UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X0CapaciteTxtBox.Text)
+        CapaciteResiduelleBX1Txtbox.Text = Convert.ToDecimal(-DS1X1UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X1CapaciteTxtBox.Text)
+        CapaciteResiduelleBX2Txtbox.Text = Convert.ToDecimal(-DS1X2UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X2CapaciteTxtBox.Text)
+        CapaciteResiduelleBX3Txtbox.Text = Convert.ToDecimal(-DS1X3UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X3CapaciteTxtBox.Text)
+        CapaciteResiduelleBX4Txtbox.Text = Convert.ToDecimal(-DS1X4UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X4CapaciteTxtBox.Text)
+        CapaciteResiduelleBX5Txtbox.Text = Convert.ToDecimal(-DS1X5UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X5CapaciteTxtBox.Text)
+        CapaciteResiduelleBX6Txtbox.Text = Convert.ToDecimal(-DS1X6UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X6CapaciteTxtBox.Text)
+        CapaciteResiduelleBX7Txtbox.Text = Convert.ToDecimal(-DS1X7UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X7CapaciteTxtBox.Text)
+        CapaciteResiduelleBX8Txtbox.Text = Convert.ToDecimal(-DS1X8UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X8CapaciteTxtBox.Text)
+        CapaciteResiduelleBX9Txtbox.Text = Convert.ToDecimal(-DS1X9UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X9CapaciteTxtBox.Text)
+        CapaciteResiduelleBX10Txtbox.Text = Convert.ToDecimal(-DS1X10UtilisationTxtBox.Text) + Convert.ToDecimal(DS1X10CapaciteTxtBox.Text)
+
+
+        'assigne les variables
+        cap0 = CapaciteResiduelleBX0Txtbox.Text
+        cap1 = CapaciteResiduelleBX1Txtbox.Text
+        cap2 = CapaciteResiduelleBX2Txtbox.Text
+        cap3 = CapaciteResiduelleBX3Txtbox.Text
+        cap4 = CapaciteResiduelleBX4Txtbox.Text
+        cap5 = CapaciteResiduelleBX5Txtbox.Text
+        cap6 = CapaciteResiduelleBX6Txtbox.Text
+        cap7 = CapaciteResiduelleBX7Txtbox.Text
+        cap8 = CapaciteResiduelleBX8Txtbox.Text
+        cap9 = CapaciteResiduelleBX9Txtbox.Text
+        cap10 = CapaciteResiduelleBX10Txtbox.Text
+
+        'affiche le minimum
+        'X0
+        min1 = min(cap0)
+        cap0 = cap0 - min1
+
+        'X1->X6->X8
+        min2 = min(cap1, cap6, cap8)
+        cap1 = cap1 - min2
+        cap6 = cap6 - min2
+        cap8 = cap8 - min2
+
+        'X1->X5->X9->X8
+        min3 = min(cap1, cap5, cap9, cap8)
+        cap1 = cap1 - min3
+        cap5 = cap5 - min3
+        cap9 = cap9 - min3
+        cap8 = cap8 - min3
+
+        'X1->X5->X7->X10
+        min4 = min(cap1, cap5, cap7, cap10)
+        cap1 = cap1 - min4
+        cap5 = cap5 - min4
+        cap7 = cap7 - min4
+        cap10 = cap10 - min4
+
+        'X2->X3->X9->X8
+        min5 = min(cap2, cap3, cap9, cap8)
+        cap2 = cap2 - min5
+        cap3 = cap3 - min5
+        cap9 = cap9 - min5
+        cap8 = cap8 - min5
+
+        'X2->X4->X10
+        min6 = min(cap2, cap4, cap10)
+        cap2 = cap2 - min6
+        cap4 = cap4 - min6
+        cap10 = cap10 - min6
+
+        'X2->X3->X7->X10
+        min7 = min(cap2, cap3, cap7, cap10)
+        cap2 = cap2 - min7
+        cap3 = cap3 - min7
+        cap7 = cap7 - min7
+        cap10 = cap10 - min7
+
+        'affichier les textboxes pour les valeurs du capacite residuelle apres les calcules 
+        CapaciteResiduelleAX0Txtbox.Text = cap0
+        CapaciteResiduelleAX1Txtbox.Text = cap1
+        CapaciteResiduelleAX2Txtbox.Text = cap2
+        CapaciteResiduelleAX3Txtbox.Text = cap3
+        CapaciteResiduelleAX4Txtbox.Text = cap4
+        CapaciteResiduelleAX5Txtbox.Text = cap5
+        CapaciteResiduelleAX6Txtbox.Text = cap6
+        CapaciteResiduelleAX7Txtbox.Text = cap7
+        CapaciteResiduelleAX8Txtbox.Text = cap8
+        CapaciteResiduelleAX9Txtbox.Text = cap9
+        CapaciteResiduelleAX10Txtbox.Text = cap10
+
+        'calculer le trafic totale
+        TraficTotalTxtBox.Text = min1 + min2 + min3 + min4 + min5 + min6 + min7
+
+        'Affiche le possiblité 
+        If Convert.ToDecimal(TraficTotalTxtBox.Text) >= Convert.ToDecimal(DemandeDS1TxtBox.Text) Then
+            PossibleTxtBox.Text = "Oui"
+            TextBox1.Text = Nothing
+            TextBox2.Text = Nothing
+        End If
+
+        If Convert.ToDecimal(TraficTotalTxtBox.Text) < Convert.ToDecimal(DemandeDS1TxtBox.Text) Then
+            PossibleTxtBox.Text = "Non"
+            TextBox1.Text = DemandeDS1TxtBox.Text - TraficTotalTxtBox.Text
+            TextBox2.Text = "X0"
+        End If
+    End Sub
+
+    Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
+        'quitter le programme
+        Application.Exit()
+    End Sub
+End Class
